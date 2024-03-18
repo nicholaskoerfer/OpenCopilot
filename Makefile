@@ -1,6 +1,6 @@
 # Variables
 export TARGET=production
-DOCKER_COMPOSE=docker-compose
+DOCKER_COMPOSE=docker compose
 
 # Colors
 COLOR_RESET=\033[0m
@@ -9,7 +9,7 @@ COLOR_GREEN=\033[32m
 COLOR_YELLOW=\033[33m
 
 # Check if Docker is installed
-DOCKER_INSTALLED := $(shell command -v docker-compose 2> /dev/null)
+DOCKER_INSTALLED := $(shell command -v docker compose 2> /dev/null)
 LLM_SERVER_ENV_EXISTS := $(shell [ -f llm-server/.env ] && echo "true" || echo "false")
 
 COMMON_SETUP = \
