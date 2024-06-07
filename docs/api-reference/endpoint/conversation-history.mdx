@@ -1,7 +1,7 @@
 ---
-title: "Conversations"
-api: "GET https://api.opencopilot.so/backend/conversations/:bot_id"
-description: "Retrieve paginated conversations, including if the conversatin was a handoff and the sentiment with the summary."
+title: "Chat Conversations"
+api: "GET https://api-v2.opencopilot.so/backend/chat/:organization_id"
+description: "Retrieve paginated chat conversations, including if the conversatin was a handoff and the sentiment with the summary."
 ---
 
 <Warning>
@@ -9,13 +9,17 @@ This endpoint is protected by the same JWT that the user uses to call other APIs
 </Warning>
 
 
-This endpoint allows you to retrieve all conversations for a specific Copilot ID. The response includes the conversation id, sentiment, and reason for handoff (if applicable).
+<Warning>
+This endpoint points to the (v2) version of the API. The (v2) version of the API is the latest version and is recommended for all new development. Please update your code to use the (v2) version of the API.
+</Warning>
 
-The endpoint is paginated, and you can specify the `offset` and `limit` parameters to control the amount of data returned.
+This endpoint allows you to retrieve all conversations for a specific Organization ID. The response includes the conversation id, sentiment, and reason for handoff (if applicable).
+
+The endpoint is paginated, and you can specify the `page` and `limit` query parameters to control the amount of data returned.
 
 <RequestExample>
 ```bash Example Request
-curl --location 'https://api.opencopilot.so/backend/conversations/:bot_id' \
+curl --location 'https://api-v2.opencopilot.so/backend/chat/:organization_id' \
   --header 'Authorization: Bearer TOKEN' \ 
   --header 'Content-Type: application/json' 
 ```
@@ -24,49 +28,45 @@ curl --location 'https://api.opencopilot.so/backend/conversations/:bot_id' \
 <ResponseExample>
 ```json Response
 [
-    {
-        "conversation_id": "0AIxwcy7etYCp6W7|0wy1xg1smm",
-        "created_at": "Sun, 17 Mar 2024 21:45:35 GMT",
-        "handoff_sentiment": null,
-        "handoff_summary": null,
-        "was_handoff": false
-    },
-    {
-        "conversation_id": "0AIxwcy7etYCp6W7|6m5624efga",
-        "created_at": "Sun, 17 Mar 2024 20:46:17 GMT",
-        "handoff_sentiment": null,
-        "handoff_summary": null,
-        "was_handoff": false
-    },
-    {
-        "conversation_id": "0AIxwcy7etYCp6W7|w2fl8rfr8l",
-        "created_at": "Sun, 17 Mar 2024 20:45:04 GMT",
-        "handoff_sentiment": null,
-        "handoff_summary": null,
-        "was_handoff": false
-    },
-    {
-        "conversation_id": "0AIxwcy7etYCp6W7|w80lgs35p3",
-        "created_at": "Sun, 17 Mar 2024 20:33:43 GMT",
-        "handoff_sentiment": null,
-        "handoff_summary": null,
-        "was_handoff": false
-    }
+  {
+    "id": "5003584a-be1f-4754-a0c7-703f48589e03",
+    "copilot_id": "4ef0737b-976a-450e-8188-4f1f5a1a1b0b",
+    "created_at": "2024-06-03T11:57:48.000Z",
+    "channel": "web",
+    "summary": "The customer is dissatisfied with the product and is looking for a refund.",
+    "classification": "REFUND_REQUEST",
+    "assignee_id": "copilot",
+    "handoff": true,
+    "handoff_sentiment": "neutral",
+    "status": "OPEN",
+    "meta": null,
+    "action_called": 1,
+    "total_messages": 9
+  }
 ]
 ```
 </ResponseExample>
 
-The response includes the following fields:
+**The request includes the following optional query parameters:**
+- `page`: The page number to retrieve (default is 1).
+- `limit`: The number of items to retrieve per page (default is 10).
+- `sortBy`: The field to sort by (default is `created_at`).
+- `sortDirection`: The direction to sort (default is `ASC`) (`ASC` or `DESC`).
 
-- `conversation_id`: The unique identifier for the conversation.
+----
+
+**The response includes the following fields:**
+
+- `id`: The unique identifier for the chat conversation.
+- `copilot_id`: The unique identifier for the organization (copilot) associated with the conversation.
 - `created_at`: The date and time the conversation was created.
+- `channel`: The channel on which the conversation was created (`whatsapp`, `email`, `web`, or `phone`).
+- `summary`: A summary of the conversation (only avaliable for conversations that is marked as `handoff`).
+- `classification`: The classification of the conversation (based on the user's provided categories and tags).
+- `assignee_id`: The ID of the assignee for the conversation (will be `copilot` for conversations that are not assigned to a human, otherwise will be the ID of the assignee).
 - `handoff_sentiment`: The sentiment of the conversation at the time of handoff.
 - `handoff_summary`: A summary of the conversation at the time of handoff.
-- `was_handoff`: A boolean value indicating whether the conversation was handed off to a human agent.
+- `handoff`: A boolean value indicating whether the conversation was handed off to a human agent.
+- `status`: The status of the conversation (open, resolved, or closed).
+- `meta`: Metadata about the conversation (such as title, recording URL, and phone number).
 
-You can use the `offset` and `limit` parameters to control the pagination of the response. For example, to retrieve the first 10 messages, you can use the following request:
-
-```bash Example Request
-curl --location 'https://api.opencopilot.so/backend/conversations/:bot_id?offset=0&limit=10' \
-  --header 'Authorization: Bearer TOKEN'
-```

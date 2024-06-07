@@ -36,31 +36,43 @@
   "navigation": [
     {
       "group": "Getting started",
+      "icon": "book",
+      "iconType": "light",
       "pages": [
-        "introduction",
-        "authorization"
+        "introduction"
       ]
     },
     {
-      "group": "Flows",
-      "pages": [
-        "flows",
-        "create-flow"
-      ],
-      "icon": "rectangle-code"
-    },
-    {
-      "group": "Copilot widget",
+      "group": "Web Support",
+      "icon": "sun",
       "pages": [
         "widget/embed",
         "widget/styling",
         "widget/not-gen-ui",
+        "authorization",
         "widget/helper-exports"
       ]
     },
     {
-      "group": "System actions",
+      "group": "Phone Support",
+      "icon": "phone",
       "pages": [
+        "phone/new"
+      ]
+    },
+    {
+      "group": "Email Support",
+      "icon": "envelope",
+      "pages": [
+        "email/new"
+      ]
+    },
+    {
+      "group": "Actions",
+      "icon": "bolt",
+      "pages": [
+        "taking-actions",
+        "authorization",
         "resources/human-handoff"
       ]
     },
