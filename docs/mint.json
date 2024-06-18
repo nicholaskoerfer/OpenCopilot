@@ -73,7 +73,8 @@
       "pages": [
         "taking-actions",
         "authorization",
-        "resources/human-handoff"
+        "resources/human-handoff",
+        "resources/autopilot-topics"
       ]
     },
     {
@@ -108,7 +109,17 @@
       ]
     },
     {
-      "group": "Chat API",
+      "group": "Contacts",
+      "pages": [
+        "api-reference/contacts/introduction",
+        "api-reference/contacts/create",
+        "api-reference/contacts/delete",
+        "api-reference/contacts/list",
+        "api-reference/contacts/update"
+      ]
+    },
+    {
+      "group": "Chat API", 
       "pages": [
         "api-reference/endpoint/chat-init"
       ]
